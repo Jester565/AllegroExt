@@ -38,10 +38,10 @@ namespace AllegroExt
 
 		bool DisplayManager::init(double wScale, double hScale)
 		{
-                        screenWidth = WINDOW_X;
-                        screenHeight = WINDOW_Y;
-                        #ifdef _WIN32
-                        RECT desktop;	//get desktop size
+            screenWidth = WINDOW_X;
+            screenHeight = WINDOW_Y;
+            #ifdef _WIN32
+            RECT desktop;	//get desktop size
 			const HWND hDesktop = GetDesktopWindow();
 			GetWindowRect(hDesktop, &desktop);
 			screenWidth = desktop.right;
@@ -50,11 +50,7 @@ namespace AllegroExt
 			al_set_new_display_flags(ALLEGRO_RESIZABLE);	//enable resizable window
 			al_set_new_display_option(ALLEGRO_SAMPLE_BUFFERS, 1, ALLEGRO_SUGGEST);	//enable anti-aliasing
 			al_set_new_display_option(ALLEGRO_SAMPLES, 8, ALLEGRO_SUGGEST);
-			#ifdef _WIN32
 			display = al_create_display(WINDOW_X, WINDOW_Y);	//create display
-			#else
-			display = al_create_display(screenWidth, screenHeight);
-			#endif
 			if (display == nullptr)
 			{
 				return display;
