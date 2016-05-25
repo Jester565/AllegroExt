@@ -1,7 +1,8 @@
 #include "DefaultLoadSign.h"
 #include "ShapeRenderer.h"
+#include <stdio.h>
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 using namespace AllegroExt::Graphics;

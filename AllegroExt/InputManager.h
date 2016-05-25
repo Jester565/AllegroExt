@@ -2,7 +2,7 @@
 #define MOUSE_LEFT 1
 #define MOUSE_RIGHT 2
 #define MOUSE_MIDDLE 4
-#include <allegro5\allegro.h>
+#include <allegro5/allegro.h>
 #include <string>
 #include <vector>
 

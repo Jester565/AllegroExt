@@ -1,9 +1,10 @@
 #include "ShapeRenderer.h"
 #include "Core.h"
+#include <stdio.h>
 #include <allegro5/color.h>
 #include <allegro5/allegro_primitives.h>
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 
 namespace AllegroExt
 {

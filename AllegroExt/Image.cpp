@@ -1,7 +1,9 @@
 #include "Image.h"
 #include "DisplayManager.h"
-#include <math.h>
+#include <cmath>
+#ifdef _WIN32
 #include <allegro5\allegro.h>
+#endif
 
 namespace AllegroExt
 {

@@ -31,7 +31,7 @@ namespace AllegroExt
 			std::cout << "FAIL" << std::endl;
 		}
 		failure |= !al_init_image_addon();
-		al_init_font_addon();
+		failure |= !al_init_font_addon();
 		failure |= !al_init_ttf_addon();
 		failure |= !al_init_primitives_addon();
 		failure |= !im.init();	//initialize inputManager

@@ -1,4 +1,5 @@
 #include "ScreenText.h"
+#include <iostream>
 namespace AllegroExt
 {
 	namespace Graphics
@@ -33,7 +34,16 @@ namespace AllegroExt
 		{
 			if (size != lastFontSize || font == nullptr)
 			{
-				font = al_load_ttf_font((prePath + fontPath).c_str(), size, 0);
+			  std::cout << "font create called" << std::endl;
+			  font = al_load_ttf_font("/home/alex/Program/BB_Server/BeachBoy_Server/BeachBoy_Server/fonts/Calibri.ttf", size, 0);
+			  if (font != nullptr)
+			  {
+			    std::cout << "Font was loaded" << std::endl;
+			  }
+			  else
+			  {
+			    std::cout << "Font not loaded" << std::endl;
+			  }
 				lastFontSize = size;
 			}
 		}
@@ -42,7 +52,7 @@ namespace AllegroExt
 		{
 			if (fontSize != lastFontSize || font == nullptr)
 			{
-				font = al_load_ttf_font((prePath + fontPath).c_str(), fontSize, 0);
+			  createFont(fontSize);
 				lastFontSize = fontSize;
 			}
 			ALLEGRO_COLOR color;
