@@ -87,7 +87,7 @@ namespace AllegroExt
 		int DisplayManager::getTaskBarHeight()
 		{
 			RECT rect;
-			HWND taskBar = FindWindow(L"Shell_traywnd", NULL);
+			HWND taskBar = FindWindow((LPCSTR)"Shell_traywnd", NULL);
 			if (taskBar && GetWindowRect(taskBar, &rect))
 			{
 				return rect.bottom - rect.top;
