@@ -35,16 +35,12 @@ namespace AllegroExt
 			if (size != lastFontSize || font == nullptr)
 			{
 			  std::cout << "font create called" << std::endl;
+#ifdef _WIN32
+			  font = al_load_ttf_font((prePath + fontPath).c_str(), size, 0);
+#else
 			  font = al_load_ttf_font("/home/alex/Program/BB_Server/BeachBoy_Server/BeachBoy_Server/fonts/Calibri.ttf", size, 0);
-			  if (font != nullptr)
-			  {
-			    std::cout << "Font was loaded" << std::endl;
-			  }
-			  else
-			  {
-			    std::cout << "Font not loaded" << std::endl;
-			  }
-				lastFontSize = size;
+#endif
+			  lastFontSize = size;
 			}
 		}
 
@@ -52,7 +48,7 @@ namespace AllegroExt
 		{
 			if (fontSize != lastFontSize || font == nullptr)
 			{
-			  createFont(fontSize);
+				createFont(fontSize);
 				lastFontSize = fontSize;
 			}
 			ALLEGRO_COLOR color;
@@ -67,7 +63,7 @@ namespace AllegroExt
 		{
 			if (fontSize != lastFontSize || font == nullptr)
 			{
-				font = al_load_ttf_font((prePath + fontPath).c_str(), fontSize, 0);
+				createFont(fontSize);
 				lastFontSize = fontSize;
 				textWidth = al_get_text_width(font, str.c_str());
 				lastStr = str;
