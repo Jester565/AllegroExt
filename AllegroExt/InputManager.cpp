@@ -118,6 +118,11 @@ namespace AllegroExt
 
 		InputManager::~InputManager()
 		{
+			if (inputQueue != nullptr)
+			{
+				al_destroy_event_queue(inputQueue);
+				inputQueue = nullptr;
+			}
 		}
 	}
 }

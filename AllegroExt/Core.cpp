@@ -7,7 +7,7 @@
 
 namespace AllegroExt
 {
-	bool Core::running = true;
+	bool Core::running = false;
 
 	double Core::rate = 1;
 
@@ -44,6 +44,7 @@ namespace AllegroExt
 	{
 		if (init())
 		{
+			running = true;
 			std::cout << "Init Sucessful" << std::endl;
 			ALLEGRO_EVENT ev;
 			while (running)
@@ -73,6 +74,14 @@ namespace AllegroExt
 
 	Core::~Core()
 	{
-
+		if (timer != nullptr)
+		{
+			al_destroy_timer(timer);
+			timer = nullptr;
+		}
+		if (timerQueue != nullptr)
+		{
+			al_destroy_event_queue(timerQueue);
+		}
 	}
 }

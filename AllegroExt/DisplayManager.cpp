@@ -146,10 +146,16 @@ namespace AllegroExt
 
 		DisplayManager::~DisplayManager()
 		{
+			events.clear();
 			if (display != nullptr)
 			{
 				al_destroy_display(display);
 				display = nullptr;
+			}
+			if (displayQueue != nullptr)
+			{
+				al_destroy_event_queue(displayQueue);
+				displayQueue = nullptr;
 			}
 		}
 	}

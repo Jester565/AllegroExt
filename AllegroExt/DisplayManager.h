@@ -40,7 +40,6 @@ namespace AllegroExt
 			static ALLEGRO_EVENT_QUEUE* displayQueue;
 			static std::vector <ALLEGRO_EVENT> events;
 			int getTaskBarHeight();
-			int getWindowTitleHeight();
 			void updateEventList();
 			int screenWidth;
 			int screenHeight;

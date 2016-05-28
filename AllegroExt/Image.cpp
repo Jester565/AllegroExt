@@ -12,6 +12,7 @@ namespace AllegroExt
 		const std::string Image::prePath = "C:\\Users\\ajcra\\Desktop\\wdir\\vs\\AllegTestDIr\\";
 
 		Image::Image()
+			:imgMap(nullptr)
 		{
 			imgMap = nullptr;
 			imgFlags = 0;
@@ -25,6 +26,7 @@ namespace AllegroExt
 		}
 
 		Image::Image(std::string path)
+			:imgMap(nullptr)
 		{
 			Image();
 			set(path);
@@ -96,6 +98,11 @@ namespace AllegroExt
 
 		Image::~Image()
 		{
+			if (imgMap != nullptr)
+			{
+				al_destroy_bitmap(imgMap);
+				imgMap = nullptr;
+			}
 		}
 	}
 }

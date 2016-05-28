@@ -1,25 +1,62 @@
 #pragma once
-#include <string>
 #include "Core.h"
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <string>
+#include <map>
 
 namespace AllegroExt
 {
 	namespace Graphics
 	{
+		struct FontContainer
+		{
+		public:
+			FontContainer(const std::string& fontName, float size);
+
+			ALLEGRO_FONT* getFont()
+			{
+				return allegroFont;
+			}
+
+			bool match(const std::string& name, float size)
+			{
+				return (fontName == name && fontSize == size);
+			}
+
+			int count;
+
+			~FontContainer()
+			{
+				if (allegroFont != nullptr)
+				{
+					al_destroy_font(allegroFont);
+					allegroFont = nullptr;
+				}
+			}
+
+		private:
+			ALLEGRO_FONT* allegroFont;
+			std::string fontName;
+			float fontSize;
+		};
 		class ScreenText
 		{
 		public:
 			ScreenText();
 
-			static void setDefaultFontPath(std::string path);
+			static std::string FONT_PREPATH;
+			static std::string FONT_DEFAULT;
+			static std::vector <FontContainer*> Fonts;
+			static void DecrementFont(const std::string& name, float size);
+			static void SetDefaultFont(const std::string& path);
+			static ALLEGRO_FONT* GetFont(const std::string& name, float size);
 
-			void setFontPath(std::string path);
+			void setFontName(const std::string& name);
 
-			void drawText(std::string str, float x, float y, float fontSize, uint8_t = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = UINT8_MAX);
+			void drawText(const std::string& str, float x, float y, float fontSize, uint8_t = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = UINT8_MAX);
 
-			void drawCenteredText(std::string str, float x, float y, float fontSize, uint8_t = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = UINT8_MAX);
+			void drawCenteredText(const std::string& str, float x, float y, float fontSize, uint8_t = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = UINT8_MAX);
 
 			int getTextWidth(const std::string& str);
 
@@ -27,12 +64,9 @@ namespace AllegroExt
 
 			~ScreenText();
 		private:
-			static std::string defaultFontPath;
-			static std::string prePath;
-			std::string fontPath;
-			std::string lastStr;
+			std::string fontName;
 			float lastFontSize;
-			int textWidth = 0;
+			int textWidth;
 			ALLEGRO_FONT* font;
 		};
 	}
