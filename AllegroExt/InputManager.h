@@ -5,6 +5,7 @@
 #include <allegro5/allegro.h>
 #include <string>
 #include <vector>
+#include <list>
 
 namespace AllegroExt
 {
@@ -16,7 +17,8 @@ namespace AllegroExt
 			InputManager();
 			bool init();
 			void update();
-			static bool keyPressed(char ev);
+			static bool keyPressed(char key);
+			static bool keyTyped(char ev);
 			static int mouseX, mouseY, mouseZ;
 			static const int getPressed();
 			static const int getClicked();
@@ -24,6 +26,7 @@ namespace AllegroExt
 		private:
 			static ALLEGRO_EVENT_QUEUE* inputQueue;
 			static std::vector <ALLEGRO_EVENT> events;
+			static std::list <char> keysPressed;
 			static int mousePressed;
 			static int mouseClicked;
 		};

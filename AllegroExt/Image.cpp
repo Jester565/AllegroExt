@@ -9,7 +9,7 @@ namespace AllegroExt
 {
 	namespace Graphics
 	{
-		const std::string Image::prePath = "C:\\Users\\ajcra\\Desktop\\wdir\\vs\\AllegTestDIr\\";
+		const std::string Image::prePath = "C:\\Users\\ajcra\\Desktop\\wdir\\woc\\";
 
 		Image::Image()
 			:imgMap(nullptr)

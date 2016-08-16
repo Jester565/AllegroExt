@@ -27,10 +27,11 @@ namespace AllegroExt
 				if (Fonts.at(i)->match(name, size))
 				{
 					Fonts.at(i)->count--;
-					if (Fonts.at(i)->count == 0)
+					if (Fonts.at(i)->count <= 0)
 					{
 						delete Fonts.at(i);
 						Fonts.erase(Fonts.begin() + i);
+						std::cout << "FONT DELETED: " << name << " " << size << " :" << Fonts.size() << std::endl;
 					}
 					return;
 				}
@@ -48,13 +49,25 @@ namespace AllegroExt
 				}
 			}
 			Fonts.push_back(new FontContainer(name, size));
+			std::cout << "FONT ADDED: " << name << " " << size << " :" << Fonts.size() << std::endl;
 			return Fonts.at(Fonts.size() - 1)->getFont();
 		}
 
 		ScreenText::ScreenText()
-			:lastFontSize(0), fontName(FONT_DEFAULT), textWidth(0), font(nullptr)
+			:lastFontSize(0), fontName(FONT_DEFAULT), font(nullptr)
 		{
 
+		}
+
+		ScreenText::ScreenText(ScreenText& st)
+		{
+			font = nullptr;
+			lastFontSize = st.lastFontSize;
+			fontName = st.fontName;
+			if (lastFontSize != 0)
+			{
+				createFont(lastFontSize);
+			}
 		}
 
 		void ScreenText::SetDefaultFont(const std::string& path)
@@ -70,7 +83,11 @@ namespace AllegroExt
 
 		int ScreenText::getTextWidth(const std::string& str)
 		{
-			return al_get_text_width(font, str.c_str());
+			if (font != nullptr)
+			{
+				return al_get_text_width(font, str.c_str());
+			}
+			return 0;
 		}
 
 		void ScreenText::createFont(float size)
@@ -89,7 +106,6 @@ namespace AllegroExt
 			if (fontSize != lastFontSize || font == nullptr)
 			{
 				createFont(fontSize);
-				lastFontSize = fontSize;
 			}
 			ALLEGRO_COLOR color;
 			if (a != UINT8_MAX)
@@ -104,7 +120,6 @@ namespace AllegroExt
 			if (fontSize != lastFontSize || font == nullptr)
 			{
 				createFont(fontSize);
-				lastFontSize = fontSize;
 			}
 			ALLEGRO_COLOR color;
 			if (a != UINT8_MAX)

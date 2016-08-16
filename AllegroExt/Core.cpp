@@ -17,26 +17,29 @@ namespace AllegroExt
 	}
 
 	Core::Core()
-		:lastTime(0), xScale(1), yScale(1), timer(nullptr), timerQueue(nullptr)
+		:lastTime(0), xScale(1), yScale(1), fpsCap(DEFAULT_FPS_CAP), timer(nullptr), timerQueue(nullptr), frames(0)
 	{
 		
 	}
 
 	bool Core::init()
 	{
+		sm = new AllegroExt::Sound::SoundManager();
 		bool failure = false;
 		failure |= !al_init();	//initialize allegro API
-		if (failure)
-		{
-			std::cout << "FAIL" << std::endl;
-		}
 		failure |= !al_init_image_addon();
 		failure |= !al_init_font_addon();
 		failure |= !al_init_ttf_addon();
 		failure |= !al_init_primitives_addon();
+		failure |= !sm->init();
 		failure |= !im.init();	//initialize inputManager
 		failure |= !initEvents();
 		failure |= !dm.init(xScale, yScale);	//create display
+		if (failure)
+		{
+			std::cout << "FAIL of AllegroExt initialization" << std::endl;
+			system("pause");
+		}
 		return !failure;
 	}
 
@@ -65,7 +68,7 @@ namespace AllegroExt
 
 	bool Core::initEvents()
 	{
-		timer = al_create_timer(1.0 / 60.0);
+		timer = al_create_timer(1.0 / fpsCap);
 		timerQueue = al_create_event_queue();
 		al_register_event_source(timerQueue, al_get_timer_event_source(timer));
 		al_start_timer(timer);

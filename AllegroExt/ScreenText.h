@@ -44,6 +44,7 @@ namespace AllegroExt
 		{
 		public:
 			ScreenText();
+			ScreenText(ScreenText& st);
 
 			static std::string FONT_PREPATH;
 			static std::string FONT_DEFAULT;
@@ -66,7 +67,6 @@ namespace AllegroExt
 		private:
 			std::string fontName;
 			float lastFontSize;
-			int textWidth;
 			ALLEGRO_FONT* font;
 		};
 	}

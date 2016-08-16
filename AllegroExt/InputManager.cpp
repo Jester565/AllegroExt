@@ -12,6 +12,8 @@ namespace AllegroExt
 		InputManager::InputManager()
 		{
 		}
+		
+		std::list<char> InputManager::keysPressed;
 
 		int InputManager::mouseX = 0;
 
@@ -48,7 +50,19 @@ namespace AllegroExt
 			return !failure;
 		}
 
-		bool InputManager::keyPressed(char ev)
+		bool InputManager::keyPressed(char key)
+		{
+			for (auto it = keysPressed.begin(); it != keysPressed.end(); it++)
+			{
+				if ((*it) == key)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		bool InputManager::keyTyped(char ev)
 		{
 			for (int i = 0; i < events.size(); i++)
 			{
@@ -105,6 +119,34 @@ namespace AllegroExt
 						mouseClicked |= MOUSE_MIDDLE;
 					}
 					break;
+				case ALLEGRO_EVENT_KEY_DOWN:
+				{
+					uint8_t keyVal = (int)ev.keyboard.keycode;
+					if (keyVal == (int)ALLEGRO_KEY_SPACE)
+					{
+						keyVal = 32;
+					}
+					else
+					{
+						keyVal += 96;
+					}
+					keysPressed.push_back((char)keyVal);
+					break;
+				}
+				case ALLEGRO_EVENT_KEY_UP:
+				{
+					uint8_t keyVal = (int)ev.keyboard.keycode;
+					if (keyVal == (int)ALLEGRO_KEY_SPACE)
+					{
+						keyVal = 32;
+					}
+					else
+					{
+						keyVal += 96;
+					}
+					keysPressed.remove((char)keyVal);
+					break;
+				}
 				case ALLEGRO_EVENT_KEY_CHAR:
 					if (TextField::activeField != nullptr)
 						TextField::activeField->update(ev);
