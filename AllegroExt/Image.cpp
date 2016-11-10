@@ -4,47 +4,74 @@
 #ifdef _WIN32
 #include <allegro5\allegro.h>
 #endif
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 namespace AllegroExt
 {
 	namespace Graphics
 	{
-		const std::string Image::prePath = "C:\\Users\\ajcra\\Desktop\\wdir\\woc\\";
+		std::string Image::PrePath = "";
 
 		Image::Image()
-			:imgMap(nullptr)
+			:imgMap(nullptr), imgFlags(NULL), m_sX(1), m_sY(1), m_cX(0), m_cY(0), m_degs(0), bitmapW(0), bitmapH(0)
 		{
-			imgMap = nullptr;
-			imgFlags = 0;
-			m_sX = 1;
-			m_sY = 1;
-			m_cX = 0;
-			m_cY = 0;
-			m_degs = 0;
-			bitmapW = 0;
-			bitmapH = 0;
+			
 		}
 
-		Image::Image(std::string path)
-			:imgMap(nullptr)
+		Image::Image(const std::string& path)
+			:Image()
 		{
-			Image();
 			set(path);
 		}
 
-		void Image::set(std::string path)
+		Image::Image(const std::string& path, int pW, int pH)
+			:Image()
 		{
-			imgMap = al_load_bitmap((prePath + path).c_str());
+			set(path, pW, pH);
+		}
+
+		void Image::set(const std::string& path)
+		{
+			imgMap = al_load_bitmap((PrePath + path).c_str());
 			bitmapW = al_get_bitmap_width(imgMap);
 			bitmapH = al_get_bitmap_height(imgMap);
+		}
+
+		void Image::set(const std::string& path, int pW, int pH)
+		{
+			ALLEGRO_BITMAP* oriImgMap = al_load_bitmap((PrePath + path).c_str());
+			imgMap = al_create_bitmap(pW, pH);
+			ALLEGRO_BITMAP* prevBitmap = al_get_target_bitmap();
+			al_set_target_bitmap(imgMap);
+			al_draw_scaled_bitmap(oriImgMap, 0, 0, al_get_bitmap_width(oriImgMap), al_get_bitmap_height(oriImgMap), 0, 0, pW, pH, imgFlags);
+			al_set_target_bitmap(prevBitmap);
+			al_destroy_bitmap(oriImgMap);
+			bitmapW = pW;
+			bitmapH = pH;
 		}
 
 		void Image::draw(float x, float y)
 		{
 			m_x = x;
 			m_y = y;
-			al_draw_scaled_rotated_bitmap(imgMap, m_cX, m_cY, x, y,
-				m_sX, m_sY, m_degs * (3.1415 / 180.0), imgFlags);
+			if ((m_sX != 1 || m_sY != 1) && (m_degs != 0 || m_cX != 0 || m_cY != 0))
+			{
+				al_draw_scaled_rotated_bitmap(imgMap, m_cX, m_cY, x, y,
+					m_sX, m_sY, m_degs * (M_PI / 180.0), imgFlags);
+			}
+			else if (m_sX != 1 || m_sY != 1)
+			{
+				al_draw_scaled_bitmap(imgMap, 0, 0, bitmapW, bitmapH, x, y, m_sX * bitmapW, m_sY * bitmapH, imgFlags);
+			}
+			else if (m_degs != 0 || m_cX != 0 || m_cY != 0)
+			{
+				al_draw_rotated_bitmap(imgMap, m_cX, m_cY, x, y, m_degs * (M_PI / 180.0), imgFlags);
+			}
+			else
+			{
+				al_draw_bitmap(imgMap, x, y, imgFlags);
+			}
 		}
 
 		void Image::draw(float x, float y, float w, float h)
@@ -95,6 +122,11 @@ namespace AllegroExt
 				imgFlags |= ALLEGRO_FLIP_VERTICAL;
 		}
 
+
+		void Image::SetPrePath(const std::string & path)
+		{
+			PrePath = path;
+		}
 
 		Image::~Image()
 		{

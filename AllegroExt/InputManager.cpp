@@ -52,6 +52,10 @@ namespace AllegroExt
 
 		bool InputManager::keyPressed(char key)
 		{
+			if (TextField::activeField != nullptr)
+			{
+				return false;
+			}
 			for (auto it = keysPressed.begin(); it != keysPressed.end(); it++)
 			{
 				if ((*it) == key)
@@ -64,6 +68,10 @@ namespace AllegroExt
 
 		bool InputManager::keyTyped(char ev)
 		{
+			if (TextField::activeField != nullptr)
+			{
+				return false;
+			}
 			for (int i = 0; i < events.size(); i++)
 			{
 				if (ev == events[i].keyboard.unichar)

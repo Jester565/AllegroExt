@@ -12,12 +12,16 @@ namespace AllegroExt
 		TextField* TextField::activeField = nullptr;
 
 		TextField::TextField()
+			:enterPressed(false), mouseAFSet(true)
 		{
-
+			backColor = al_map_rgba(200, 200, 200, 255);
+			textColor = al_map_rgba(10, 0, 255, 255);
 		}
 
 		TextField::TextField(float w, float h)
 		{
+			backColor = al_map_rgba(200, 200, 200, 255);
+			textColor = al_map_rgba(10, 0, 255, 255);
 			set(w, h);
 		}
 
@@ -52,6 +56,10 @@ namespace AllegroExt
 			{
 				moveCursor(1);
 			}
+			else if (ev.keyboard.keycode == ALLEGRO_KEY_ENTER)
+			{
+				enterPressed = true;
+			}
 			else if (inputChar >= 32 && inputChar <= 125)
 			{
 				text = text.substr(0, wordPos + cursorPos) + (char)inputChar + text.substr(wordPos + cursorPos, text.length());
@@ -63,13 +71,13 @@ namespace AllegroExt
 		{
 			m_x = x;
 			m_y = y;
-			if (Button::clickButton(m_x, m_y, m_w, m_h, 200, 200, 200))
+			if (Button::clickButton(m_x, m_y, m_w, m_h, (uint8_t)(backColor.r * 255), (uint8_t)(backColor.g * 255), (uint8_t)(backColor.b * 255), (uint8_t)(backColor.a * 255)) && mouseAFSet)
 			{
 				activeField = this;
 			}
 			if (text.length() > 0)
 			{
-				screenText.drawText(text.substr(wordPos, endPos), m_x + 4, m_y + (fontSize * .17), (fontSize * 1.2), 10, 0, 255);
+				screenText.drawText(text.substr(wordPos, endPos), m_x + 4, m_y + (fontSize * .17), (fontSize * 1.2), (uint8_t)(textColor.r * 255), (uint8_t)(textColor.g * 255), (uint8_t)(textColor.b * 255), (uint8_t)(textColor.a * 255));
 			}
 			if (activeField == this)
 			{
@@ -77,11 +85,11 @@ namespace AllegroExt
 				{
 					mouseSetCursorPos();
 				}
-				else if ((InputManager::getClicked() & MOUSE_LEFT) > 0)
+				else if (mouseAFSet && (InputManager::getClicked() & MOUSE_LEFT) > 0)
 				{
 					activeField = nullptr;
 				}
-				ShapeRenderer::drawRectangle(cursorX + m_x + 2, m_y + (fontSize*.2), 3, fontSize * 1.1, 0, 0, 0, 255);
+				ShapeRenderer::drawRectangle(cursorX + m_x + 2, m_y + (fontSize*.2), 3, fontSize * 1.1, (uint8_t)(textColor.r * 255), (uint8_t)(textColor.g * 255), (uint8_t)(textColor.b * 255), (uint8_t)(textColor.a * 255));
 			}
 		}
 

@@ -41,13 +41,13 @@ namespace AllegroExt
             screenWidth = WINDOW_X;
             screenHeight = WINDOW_Y;
             #ifdef _WIN32
-            RECT desktop;	//get desktop size
+            RECT desktop;
 			const HWND hDesktop = GetDesktopWindow();
 			GetWindowRect(hDesktop, &desktop);
 			screenWidth = desktop.right;
 			screenHeight = desktop.bottom;
 			#endif
-			al_set_new_display_flags(ALLEGRO_RESIZABLE);	//enable resizable window
+			al_set_new_display_flags(ALLEGRO_RESIZABLE | ALLEGRO_WINDOWED | ALLEGRO_PROGRAMMABLE_PIPELINE);
 			al_set_new_display_option(ALLEGRO_SAMPLE_BUFFERS, 1, ALLEGRO_SUGGEST);	//enable anti-aliasing
 			al_set_new_display_option(ALLEGRO_SAMPLES, 8, ALLEGRO_SUGGEST);
 			display = al_create_display(WINDOW_X, WINDOW_Y);	//create display
@@ -65,14 +65,6 @@ namespace AllegroExt
 			al_set_blender(ALLEGRO_ADD, ALLEGRO_ALPHA, ALLEGRO_INVERSE_ALPHA);
 			displayQueue = al_create_event_queue();
 			al_register_event_source(displayQueue, al_get_display_event_source(display));
-			if (al_get_display_option(display, ALLEGRO_SAMPLE_BUFFERS)) 
-			{ 
-				printf("With multisampling, level %i\n", al_get_display_option(display, ALLEGRO_SAMPLES)); 
-			}
-			else 
-			{ 
-				printf("Without multisampling.\n"); 
-			}
 			return display != nullptr && displayQueue != nullptr;
 		}
                 #ifdef _WIN32
@@ -118,6 +110,14 @@ namespace AllegroExt
 				RECT rect;
 				if (GetClientRect(al_get_win_window_handle(display), &rect))
 				{
+					/*
+					std::cout << "RESIZED" << std::endl;
+					al_acknowledge_resize(display);
+					ALLEGRO_TRANSFORM trans;
+					al_identity_transform(&trans);
+					al_scale_transform(&trans, (rect.right - rect.left) / 1920.0, (rect.bottom - rect.top) / 1080.0);
+					al_use_transform(&trans);
+					*/
 					scaleX = (rect.right - rect.left) / (STANDARD_WIDTH);
 					scaleY = (rect.bottom - rect.top) / (STANDARD_HEIGHT);
 				}
@@ -149,7 +149,7 @@ namespace AllegroExt
 			events.clear();
 			if (display != nullptr)
 			{
-				al_destroy_display(display);
+				//al_destroy_display(display);
 				display = nullptr;
 			}
 			if (displayQueue != nullptr)

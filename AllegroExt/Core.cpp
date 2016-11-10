@@ -4,6 +4,7 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <Windows.h>
 
 namespace AllegroExt
 {
@@ -11,27 +12,29 @@ namespace AllegroExt
 
 	double Core::rate = 1;
 
+	AllegroExt::Sound::SoundManager* Core::SoundManager = nullptr;
+
 	void Core::shutDown()
 	{
 		running = false;
 	}
 
-	Core::Core()
+	Core::Core(const std::string& resourcePath)
 		:lastTime(0), xScale(1), yScale(1), fpsCap(DEFAULT_FPS_CAP), timer(nullptr), timerQueue(nullptr), frames(0)
 	{
-		
+		ResourcePath = resourcePath;
 	}
 
 	bool Core::init()
 	{
-		sm = new AllegroExt::Sound::SoundManager();
+		SoundManager = new AllegroExt::Sound::SoundManager();
 		bool failure = false;
 		failure |= !al_init();	//initialize allegro API
 		failure |= !al_init_image_addon();
 		failure |= !al_init_font_addon();
 		failure |= !al_init_ttf_addon();
 		failure |= !al_init_primitives_addon();
-		failure |= !sm->init();
+		failure |= !SoundManager->init();
 		failure |= !im.init();	//initialize inputManager
 		failure |= !initEvents();
 		failure |= !dm.init(xScale, yScale);	//create display
@@ -39,6 +42,15 @@ namespace AllegroExt
 		{
 			std::cout << "FAIL of AllegroExt initialization" << std::endl;
 			system("pause");
+		}
+		else
+		{
+			uint32_t version = al_get_allegro_version();
+			int major = version >> 24;
+			int minor = (version >> 16) & 0xff;
+			int revision = (version >> 8) & 0xff;
+			int release = (version) & 0xff;
+			std::cout << "ALLEGRO CORE INTIALIZED: " << major << "." << minor << "." << revision << "." << release << std::endl;
 		}
 		return !failure;
 	}

@@ -24,9 +24,24 @@ namespace AllegroExt
 
 			void set(float w, float h);
 
+			void setAsActiveField()
+			{
+				activeField = this;
+			}
+
 			void draw(float x, float y);
 
 			void update(const ALLEGRO_EVENT& ev);
+
+			bool isEnterPressed()
+			{
+				return enterPressed;
+			}
+
+			void setMouseActiveFieldSetting(bool mode)
+			{
+				mouseAFSet = mode;
+			}
 
 			void clear()
 			{
@@ -35,6 +50,15 @@ namespace AllegroExt
 				wordPos = 0;
 				cursorX = 0;
 				endPos = 0;
+				enterPressed = false;
+			}
+
+			std::string reset()
+			{
+				std::string textCpy = text;
+				clear();
+				activeField = nullptr;
+				return textCpy;
 			}
 
 			std::string getText()
@@ -42,10 +66,33 @@ namespace AllegroExt
 				return text;
 			}
 
+			bool isActiveField()
+			{
+				return this == activeField;
+			}
+
 			static TextField* activeField;
+
+			void setBackColor(ALLEGRO_COLOR color)
+			{
+				backColor = color;
+			}
+
+			void setTextColor(ALLEGRO_COLOR color)
+			{
+				textColor = color;
+			}
 
 			~TextField();
 		private:
+			bool enterPressed;
+
+			bool mouseAFSet;
+
+			ALLEGRO_COLOR textColor;
+
+			ALLEGRO_COLOR backColor;
+
 			AllegroExt::Graphics::ScreenText screenText;
 
 			std::string text;

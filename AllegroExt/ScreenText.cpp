@@ -4,12 +4,6 @@ namespace AllegroExt
 {
 	namespace Graphics
 	{
-
-#ifdef _WIN32
-		std::string ScreenText::FONT_PREPATH = "fonts/";
-#else
-		std::string FONT_PREPATH = "/home/alex/Program/BB_Server/BeachBoy_Server/BeachBoy_Server/fonts/";
-#endif
 		std::string ScreenText::FONT_DEFAULT = "Calibri.ttf";
 
 		std::vector <FontContainer*> ScreenText::Fonts = std::vector <FontContainer*>();
@@ -17,7 +11,7 @@ namespace AllegroExt
 		FontContainer::FontContainer(const std::string& fontName, float size)
 			:fontName(fontName), fontSize(size), count(1), allegroFont(nullptr)
 		{
-			allegroFont = al_load_ttf_font((ScreenText::FONT_PREPATH + fontName).c_str(), size, 0);
+			allegroFont = al_load_ttf_font(fontName.c_str(), size, 0);
 		}
 
 		void ScreenText::DecrementFont(const std::string& name, float size)

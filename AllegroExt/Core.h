@@ -3,13 +3,15 @@
 #include "InputManager.h"
 #include "DisplayManager.h"
 #include "SoundManager.h"
+#include <string>
 
 namespace AllegroExt
 {
+	static std::string ResourcePath;
 	class Core
 	{
 	public:
-		Core();
+		Core(const std::string& resourcePath);
 		const static int DEFAULT_FPS_CAP = 60;
 		void setFPSCap(int fpsCap)
 		{
@@ -18,9 +20,9 @@ namespace AllegroExt
 		void run();
 		static void shutDown();
 		static double rate;
-		AllegroExt::Sound::SoundManager* getSoundManager()
+		static AllegroExt::Sound::SoundManager* GetSoundManager()
 		{
-			return sm;
+			return SoundManager;
 		}
 		~Core();
 	protected:
@@ -34,7 +36,7 @@ namespace AllegroExt
 		static bool running;
 		Input::InputManager im;
 		AllegroExt::Graphics::DisplayManager dm;
-		AllegroExt::Sound::SoundManager* sm;
+		static AllegroExt::Sound::SoundManager* SoundManager;
 	private:
 		double xScale;
 		double yScale;

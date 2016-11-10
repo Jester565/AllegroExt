@@ -45,26 +45,24 @@ namespace AllegroExt
 		public:
 			ScreenText();
 			ScreenText(ScreenText& st);
-
-			static std::string FONT_PREPATH;
 			static std::string FONT_DEFAULT;
 			static std::vector <FontContainer*> Fonts;
 			static void DecrementFont(const std::string& name, float size);
 			static void SetDefaultFont(const std::string& path);
 			static ALLEGRO_FONT* GetFont(const std::string& name, float size);
 
-			void setFontName(const std::string& name);
+			virtual void setFontName(const std::string& name);
 
-			void drawText(const std::string& str, float x, float y, float fontSize, uint8_t = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = UINT8_MAX);
+			virtual void drawText(const std::string& str, float x, float y, float fontSize, uint8_t = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = UINT8_MAX);
 
-			void drawCenteredText(const std::string& str, float x, float y, float fontSize, uint8_t = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = UINT8_MAX);
+			virtual void drawCenteredText(const std::string& str, float x, float y, float fontSize, uint8_t r = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = UINT8_MAX);
 
-			int getTextWidth(const std::string& str);
+			virtual int getTextWidth(const std::string& str);
 
 			void createFont(float size);
 
-			~ScreenText();
-		private:
+			virtual ~ScreenText();
+		protected:
 			std::string fontName;
 			float lastFontSize;
 			ALLEGRO_FONT* font;

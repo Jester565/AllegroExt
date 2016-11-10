@@ -34,6 +34,24 @@ namespace AllegroExt
 
 			static float offY;
 
+			float getDisplayWidth()
+			{
+				if (display != nullptr)
+				{
+					return al_get_display_width(display);
+				}
+				return -1;
+			}
+
+			float getDisplayHeight()
+			{
+				if (display != nullptr)
+				{
+					return al_get_display_height(display);
+				}
+				return -1;
+			}
+
 			~DisplayManager();
 		private:
 			static ALLEGRO_DISPLAY* display;

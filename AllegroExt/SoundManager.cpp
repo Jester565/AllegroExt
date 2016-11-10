@@ -14,7 +14,7 @@ namespace AllegroExt
 			bool failure = false;
 			failure |= !al_init_acodec_addon();
 			failure |= !al_install_audio();
-			failure |= !al_reserve_samples(1);
+			failure |= !al_reserve_samples(12);
 			return al_init_acodec_addon();
 		}
 
