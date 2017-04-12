@@ -38,11 +38,6 @@ namespace AllegroExt
 				return enterPressed;
 			}
 
-			void setMouseActiveFieldSetting(bool mode)
-			{
-				mouseAFSet = mode;
-			}
-
 			void clear()
 			{
 				text.clear();
@@ -86,8 +81,6 @@ namespace AllegroExt
 			~TextField();
 		private:
 			bool enterPressed;
-
-			bool mouseAFSet;
 
 			ALLEGRO_COLOR textColor;
 

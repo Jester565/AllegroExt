@@ -12,7 +12,7 @@ namespace AllegroExt
 		TextField* TextField::activeField = nullptr;
 
 		TextField::TextField()
-			:enterPressed(false), mouseAFSet(true)
+			:enterPressed(false)
 		{
 			backColor = al_map_rgba(200, 200, 200, 255);
 			textColor = al_map_rgba(10, 0, 255, 255);
@@ -71,9 +71,10 @@ namespace AllegroExt
 		{
 			m_x = x;
 			m_y = y;
-			if (Button::clickButton(m_x, m_y, m_w, m_h, (uint8_t)(backColor.r * 255), (uint8_t)(backColor.g * 255), (uint8_t)(backColor.b * 255), (uint8_t)(backColor.a * 255)) && mouseAFSet)
+			if (Button::clickButton(m_x, m_y, m_w, m_h, (uint8_t)(backColor.r * 255), (uint8_t)(backColor.g * 255), (uint8_t)(backColor.b * 255), (uint8_t)(backColor.a * 255)))
 			{
-				activeField = this;
+				setAsActiveField();
+				std::cout << "Active field set" << std::endl;
 			}
 			if (text.length() > 0)
 			{
@@ -85,7 +86,7 @@ namespace AllegroExt
 				{
 					mouseSetCursorPos();
 				}
-				else if (mouseAFSet && (InputManager::getClicked() & MOUSE_LEFT) > 0)
+				else if ((InputManager::getClicked() & MOUSE_LEFT) > 0)
 				{
 					activeField = nullptr;
 				}
