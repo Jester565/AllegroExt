@@ -52,11 +52,16 @@ namespace AllegroExt
 				return -1;
 			}
 
+			void setBackgroundColor(ALLEGRO_COLOR color) {
+				backgroundColor = color;
+			}
+
 			~DisplayManager();
 		private:
 			static ALLEGRO_DISPLAY* display;
 			static ALLEGRO_EVENT_QUEUE* displayQueue;
 			static std::vector <ALLEGRO_EVENT> events;
+			ALLEGRO_COLOR backgroundColor;
 			int getTaskBarHeight();
 			void updateEventList();
 			int screenWidth;

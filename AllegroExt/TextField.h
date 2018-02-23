@@ -13,6 +13,8 @@ namespace AllegroExt
 
 			TextField(float w, float h);
 
+			void setHint(const std::string& str);
+
 			void setText(const std::string& str)
 			{
 				for (int i = 0; i < str.size(); i++)
@@ -86,9 +88,13 @@ namespace AllegroExt
 
 			ALLEGRO_COLOR backColor;
 
+			AllegroExt::Graphics::ScreenText* hint;
+
 			AllegroExt::Graphics::ScreenText screenText;
 
 			std::string text;
+
+			std::string hintText;
 
 			float m_x;
 

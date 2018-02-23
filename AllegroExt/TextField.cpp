@@ -12,17 +12,26 @@ namespace AllegroExt
 		TextField* TextField::activeField = nullptr;
 
 		TextField::TextField()
-			:enterPressed(false)
+			:enterPressed(false), hint(nullptr)
 		{
 			backColor = al_map_rgba(200, 200, 200, 255);
 			textColor = al_map_rgba(10, 0, 255, 255);
 		}
 
 		TextField::TextField(float w, float h)
+			:hint(nullptr)
 		{
 			backColor = al_map_rgba(200, 200, 200, 255);
 			textColor = al_map_rgba(10, 0, 255, 255);
 			set(w, h);
+		}
+
+		void TextField::setHint(const std::string & str)
+		{
+			if (hint == nullptr) {
+				hint = new ScreenText();
+			}
+			hintText = str;
 		}
 
 		void TextField::set(float w, float h)
@@ -79,6 +88,9 @@ namespace AllegroExt
 			if (text.length() > 0)
 			{
 				screenText.drawText(text.substr(wordPos, endPos), m_x + 4, m_y + (fontSize * .17), (fontSize * 1.2), (uint8_t)(textColor.r * 255), (uint8_t)(textColor.g * 255), (uint8_t)(textColor.b * 255), (uint8_t)(textColor.a * 255));
+			}
+			else if (hint != nullptr) {
+				screenText.drawText(hintText, m_x + 4, m_y + (fontSize * .17), (fontSize * 1.2), (uint8_t)(textColor.r * 255), (uint8_t)(textColor.g * 255), (uint8_t)(textColor.b * 255), (uint8_t)(textColor.a * 40));
 			}
 			if (activeField == this)
 			{

@@ -50,6 +50,18 @@ namespace AllegroExt
 			al_draw_filled_circle(adjustedX, adjustedY, rad * ((xScale + yScale)/2), color);
 		}
 
+		void ShapeRenderer::drawCircleOutline(float x, float y, float rad, float lineW, uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+		{
+			ALLEGRO_COLOR color;
+			if (a != UINT8_MAX)
+				color = al_map_rgba(r, g, b, a);
+			else
+				color = al_map_rgb(r, g, b);
+			float adjustedX = (x + xOff) * xScale;
+			float adjustedY = (y + yOff) * yScale;
+			al_draw_circle(adjustedX, adjustedY, rad * ((xScale + yScale) / 2), color, lineW);
+		}
+
 		void ShapeRenderer::drawArc(float x, float y, float rad, float iPheta, float dPheta, uint8_t r, uint8_t g, uint8_t b, uint8_t a, float thickness)
 		{
 			ALLEGRO_COLOR color;

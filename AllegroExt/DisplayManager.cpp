@@ -34,6 +34,7 @@ namespace AllegroExt
 		DisplayManager::DisplayManager()
 		{
 			sizeUpdated = false;
+			backgroundColor = al_map_rgb(200, 200, 255);
 		}
 
 		bool DisplayManager::init(double wScale, double hScale)
@@ -98,7 +99,7 @@ namespace AllegroExt
 
 		void DisplayManager::update()
 		{
-			ALLEGRO_COLOR blue = al_map_rgb(200, 200, 255);
+			
 			updateEventList();
 			if (eventOccured(ALLEGRO_EVENT_DISPLAY_CLOSE))
 			{
@@ -131,7 +132,7 @@ namespace AllegroExt
 			  #endif
 			}
 			al_flip_display();
-			al_clear_to_color(blue);
+			al_clear_to_color(backgroundColor);
 		}
 
 		void DisplayManager::updateEventList()
