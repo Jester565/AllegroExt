@@ -1,19 +1,28 @@
 cmake_minimum_required ( VERSION 3.1 )
-set (PROJECT_NAME AllegroExt)
+set (AE_PROJECT_NAME AllegroExt)
 
-project(${PROJECT_NAME})
+project(${AE_PROJECT_NAME})
 
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 set(CMAKE_GENERATOR_PLATFORM x64)
 
 set(allegincludedir "" CACHE STRING "The directory of allegro includes")
 set(alleglibdir "" CACHE STRING "The directories of allegro's libraries")
-set(alleglib "liballegro" CACHE STRING "The path of the main allegro library relative to allegdir")
-set(ttflib "liballegro_ttf" CACHE STRING "The path of the ttf allegro extension relative to allegdir")
-set(imglib "liballegro_image" CACHE STRING "The path of the img allegro extension relative to allegdir")
-set(primlib "liballegro_primitives" CACHE STRING "The path of the primtive allegro extension relative to allegdir")
-set(fontlib "liballegro_font" CACHE STRING "The path of the font allegro extension relative to allegdir")
+if (UNIX)
+    set(alleglib "liballegro" CACHE STRING "The path of the main allegro library relative to allegdir")
+    set(ttflib "liballegro_ttf" CACHE STRING "The path of the ttf allegro extension relative to allegdir")
+    set(imglib "liballegro_image" CACHE STRING "The path of the img allegro extension relative to allegdir")
+    set(primlib "liballegro_primitives" CACHE STRING "The path of the primtive allegro extension relative to allegdir")
+    set(fontlib "liballegro_font" CACHE STRING "The path of the font allegro extension relative to allegdir")
+else()
+    set(alleglib "allegro-static" CACHE STRING "The path of the main allegro library relative to allegdir")
+    set(ttflib "allegro_ttf-static" CACHE STRING "The path of the ttf allegro extension relative to allegdir")
+    set(imglib "allegro_image-static" CACHE STRING "The path of the img allegro extension relative to allegdir")
+    set(primlib "allegro_primitives-static" CACHE STRING "The path of the primtive allegro extension relative to allegdir")
+    set(fontlib "allegro_font-static" CACHE STRING "The path of the font allegro extension relative to allegdir")
+endif()
 
 set(HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/allegroext)
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -38,6 +47,7 @@ set(SOURCES
 	${SOURCE_DIR}/Button.cpp
     ${SOURCE_DIR}/Core.cpp
     ${SOURCE_DIR}/DefaultLoadSign.cpp
+    ${SOURCE_DIR}/DisplayManager.cpp
     ${SOURCE_DIR}/FPSLogger.cpp
     ${SOURCE_DIR}/Image.cpp
     ${SOURCE_DIR}/InputManager.cpp
@@ -56,14 +66,14 @@ include_directories(
 include_directories(
     ${allegincludedir})
 
-add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
+add_library(${AE_PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(${AE_PROJECT_NAME} 
     ${alleglibdir}${alleglib}
     ${alleglibdir}${ttflib}
     ${alleglibdir}${imglib}
     ${alleglibdir}${primlib}
     ${alleglibdir}${fontlib})
 
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED 11)
+set_property(TARGET ${AE_PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+set_property(TARGET ${AE_PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED 11)
