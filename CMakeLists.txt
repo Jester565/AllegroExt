@@ -4,24 +4,27 @@ set (AE_PROJECT_NAME AllegroExt)
 project(${AE_PROJECT_NAME})
 
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_RELEASE} /MTd")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 set(CMAKE_GENERATOR_PLATFORM x64)
 
-set(allegincludedir "" CACHE STRING "The directory of allegro includes")
-set(alleglibdir "" CACHE STRING "The directories of allegro's libraries")
-if (UNIX)
-    set(alleglib "liballegro" CACHE STRING "The path of the main allegro library relative to allegdir")
-    set(ttflib "liballegro_ttf" CACHE STRING "The path of the ttf allegro extension relative to allegdir")
-    set(imglib "liballegro_image" CACHE STRING "The path of the img allegro extension relative to allegdir")
-    set(primlib "liballegro_primitives" CACHE STRING "The path of the primtive allegro extension relative to allegdir")
-    set(fontlib "liballegro_font" CACHE STRING "The path of the font allegro extension relative to allegdir")
-else()
-    set(alleglib "allegro-static" CACHE STRING "The path of the main allegro library relative to allegdir")
-    set(ttflib "allegro_ttf-static" CACHE STRING "The path of the ttf allegro extension relative to allegdir")
-    set(imglib "allegro_image-static" CACHE STRING "The path of the img allegro extension relative to allegdir")
-    set(primlib "allegro_primitives-static" CACHE STRING "The path of the primtive allegro extension relative to allegdir")
-    set(fontlib "allegro_font-static" CACHE STRING "The path of the font allegro extension relative to allegdir")
+set(allegro false CACHE BOOL "Link to allegro")
+if (allegro)
+    set(allegincludedir "" CACHE STRING "The directory of allegro includes")
+    set(alleglibdir "" CACHE STRING "The directories of allegro's libraries")
+    if (UNIX)
+        set(alleglib "liballegro.so" CACHE STRING "The path of the main allegro library relative to allegdir")
+        set(ttflib "liballegro_ttf.so" CACHE STRING "The path of the ttf allegro extension relative to allegdir")
+        set(imglib "liballegro_image.so" CACHE STRING "The path of the img allegro extension relative to allegdir")
+        set(primlib "liballegro_primitives.so" CACHE STRING "The path of the primtive allegro extension relative to allegdir")
+        set(fontlib "liballegro_font.so" CACHE STRING "The path of the font allegro extension relative to allegdir")
+    else()
+        set(alleglib "allegro-static.lib" CACHE STRING "The path of the main allegro library relative to allegdir")
+        set(ttflib "allegro_ttf-static.lib" CACHE STRING "The path of the ttf allegro extension relative to allegdir")
+        set(imglib "allegro_image-static.lib" CACHE STRING "The path of the img allegro extension relative to allegdir")
+        set(primlib "allegro_primitives-static.lib" CACHE STRING "The path of the primtive allegro extension relative to allegdir")
+        set(fontlib "allegro_font-static.lib" CACHE STRING "The path of the font allegro extension relative to allegdir")
+    endif()
 endif()
 
 set(HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/allegroext)
@@ -68,7 +71,7 @@ include_directories(
 
 add_library(${AE_PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 
-target_link_libraries(${AE_PROJECT_NAME} 
+target_link_libraries(${AE_PROJECT_NAME}
     ${alleglibdir}${alleglib}
     ${alleglibdir}${ttflib}
     ${alleglibdir}${imglib}
