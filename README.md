@@ -23,7 +23,7 @@ void ExampleCore::draw()
 }
 ```
 
-## Installation
+## Building
 Requirements: Allegro (5.2.4)
 
 #### Requirement Installation
