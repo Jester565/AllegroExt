@@ -24,7 +24,6 @@ void ExampleCore::draw()
 ```
 
 ## Installation
-***Clone repository with --recurse-submodules flag***  
 Requirements: Allegro (5.2.4)
 
 #### Requirement Installation
